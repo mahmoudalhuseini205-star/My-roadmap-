@@ -1,0 +1,386 @@
+<meta charset="utf-8">
+<title>دفتر VERL</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Aref+Ruqaa:wght@400;700&family=Readex+Pro:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: one squared school-notebook sheet, Arabic margin on the right (inline-start) carrying dates and counts; content on the 24px square. */
+:root{
+  --paper:#FAFCFE; --grid:#D9E6F2; --margin:#E2585C; --ink:#1A2440; --ink-soft:#4B5977;
+  --pen:#2152B8; --red:#C42A31; --wash:#EEF4FA; --desk:#E4EAF1; --shadow:rgba(20,30,50,.22);
+  --display:"Aref Ruqaa","Noto Naskh Arabic","Traditional Arabic",serif;
+  --body:"Readex Pro","Segoe UI","Tahoma",system-ui,sans-serif;
+  --sq:24px; --m:96px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#111A2A; --grid:#1C2940; --margin:#B8464B; --ink:#E7ECF4; --ink-soft:#A6B2C8;
+    --pen:#86A9F2; --red:#FF7376; --wash:#16233A; --desk:#0A111D; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#111A2A; --grid:#1C2940; --margin:#B8464B; --ink:#E7ECF4; --ink-soft:#A6B2C8;
+  --pen:#86A9F2; --red:#FF7376; --wash:#16233A; --desk:#0A111D; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  background:var(--desk); color:var(--ink); font-family:var(--body); font-size:16px; line-height:1.75;
+  padding-left:max(16px, env(safe-area-inset-left, 0px)); padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:24px 48px; -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--red); color:var(--paper)}
+html{scrollbar-color:var(--margin) var(--desk)}
+a{color:var(--pen); text-underline-offset:3px}
+code{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace; font-size:.86em; background:var(--wash); color:var(--pen); padding:1px 6px; border-radius:4px; unicode-bidi:isolate; white-space:nowrap}
+
+.sheet{
+  position:relative; max-width:860px; margin-inline:auto; background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:var(--sq) var(--sq); background-position:-1px -1px;
+  border-radius:4px; box-shadow:0 1px 2px var(--shadow), 0 18px 40px -18px var(--shadow);
+  padding-block:calc(var(--sq)*2) calc(var(--sq)*3); overflow:hidden;
+}
+/* the red double margin rule */
+.sheet::before{
+  content:""; position:absolute; inset-block:0; inset-inline-start:var(--m); width:5px;
+  border-inline:1.5px solid var(--margin); opacity:.85; pointer-events:none;
+}
+.row{display:grid; grid-template-columns:var(--m) minmax(0,1fr); }
+.row > .mg{padding-inline:10px 14px; text-align:center; color:var(--red); font-variant-numeric:tabular-nums}
+.row > .ct{padding-inline:22px 28px; min-width:0}
+
+/* cover */
+h1 .latin{font-family:var(--body); font-weight:600; letter-spacing:.06em; font-size:.62em; color:var(--red); vertical-align:.12em}
+h1{font-family:var(--display); font-weight:700; font-size:clamp(2.6rem, 9vw, 4.6rem); line-height:1.15; margin:.1em 0 .15em; text-wrap:balance}
+.lede{max-width:56ch; color:var(--ink-soft); margin:0 0 var(--sq)}
+.meter{display:flex; flex-wrap:wrap; gap:0; max-width:calc(var(--sq)*24)}
+.meter i{width:var(--sq); height:var(--sq); display:block; position:relative}
+.meter i::after{content:""; position:absolute; inset:5px; border-radius:2px; background:transparent; box-shadow:inset 0 0 0 1.3px var(--margin); transition:background .3s}
+.meter i.on::after{background:var(--red)}
+.meter-label{margin:10px 0 0; font-size:.92rem; color:var(--ink-soft)}
+.meter-label b{color:var(--red); font-weight:600}
+.mg .big{font-family:var(--display); font-size:2rem; line-height:1}
+
+/* homework */
+.homework{margin-block:calc(var(--sq)*2) 0}
+.homework .ct{background:color-mix(in srgb, var(--paper) 82%, transparent); }
+h2{font-family:var(--display); font-weight:700; font-size:clamp(1.7rem, 5vw, 2.3rem); line-height:1.3; margin:0 0 .2em; text-wrap:balance}
+.hw-list{list-style:none; margin:.4em 0 0; padding:0; display:grid; gap:6px}
+.hw-list a{color:var(--ink); text-decoration:none; display:flex; gap:10px; align-items:baseline}
+.hw-list a::before{content:""; flex:none; width:9px; height:9px; border:1.5px solid var(--red); border-radius:50%; transform:translateY(-1px)}
+.hw-list a:hover span{text-decoration:underline; text-decoration-color:var(--red)}
+.hw-empty{color:var(--ink-soft); margin:.3em 0 0}
+
+/* stages */
+.stage{margin-top:calc(var(--sq)*3)}
+.stage-head .ct{border-bottom:2px solid var(--ink); padding-bottom:8px}
+.stage-head p{margin:0; color:var(--ink-soft); max-width:60ch}
+.stage-head .mg{font-family:var(--display); font-size:1.05rem; color:var(--ink-soft); align-self:end; padding-bottom:10px}
+
+.day{position:relative; margin-top:calc(var(--sq)*1.5)}
+.day .mg{padding-top:4px}
+.date{display:block; font-family:var(--display); font-size:1.15rem; line-height:1.35; color:var(--red)}
+.date small{display:block; font-family:var(--body); font-size:.72rem; color:var(--ink-soft); margin-top:4px}
+.count{display:block; margin-top:8px; font-size:.82rem; color:var(--ink-soft); direction:ltr; unicode-bidi:isolate}
+h3{font-size:1.18rem; font-weight:600; margin:0; line-height:1.5; text-wrap:balance}
+.goal{margin:.25em 0 .6em; color:var(--ink-soft); max-width:62ch}
+
+/* today ribbon: a bookmark hung in the margin */
+.day.is-today::before{
+  content:""; position:absolute; top:-12px; inset-inline-start:12px; width:18px; height:76px;
+  background:var(--red); clip-path:polygon(0 0,100% 0,100% 100%,50% 80%,0 100%);
+  box-shadow:0 2px 4px rgba(0,0,0,.18);
+}
+.day.is-today .mg{padding-inline-start:34px}
+.day.is-today h3::after{content:"اليوم"; font-family:var(--display); font-weight:700; color:var(--red); font-size:1rem; margin-inline-start:10px}
+
+/* tasks */
+.tasks{list-style:none; margin:0; padding:0; display:grid}
+.tasks li{min-height:var(--sq)}
+.task{position:relative}
+.task input{position:absolute; opacity:0; width:1px; height:1px}
+.task label{display:grid; grid-template-columns:24px minmax(0,1fr) auto; gap:12px; align-items:start; padding-block:6px; cursor:pointer}
+.box{width:20px; height:20px; margin-top:4px; border:1.6px solid var(--ink-soft); border-radius:3px; position:relative; background:var(--paper)}
+.tick{position:absolute; inset:-9px -6px -4px -10px; width:34px; height:32px; overflow:visible; pointer-events:none}
+.tick path{fill:none; stroke:var(--red); stroke-width:3.2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:44; stroke-dashoffset:44}
+.ready .tick path{transition:stroke-dashoffset .42s cubic-bezier(.16,1,.3,1)}
+.task input:checked + label .tick path{stroke-dashoffset:0}
+.task input:checked + label .txt{color:var(--ink-soft)}
+.task input:focus-visible + label .box{outline:2px solid var(--pen); outline-offset:3px}
+.task label:hover .box{border-color:var(--ink)}
+.txt{min-width:0}
+.txt small{display:block; color:var(--ink-soft); font-size:.86rem; line-height:1.6}
+.who{font-size:.72rem; font-weight:500; padding:1px 9px; border-radius:999px; border:1.2px solid currentColor; margin-top:5px; white-space:nowrap}
+.who.me{color:var(--red)}
+.who.cl{color:var(--pen)}
+.who.both{color:var(--ink-soft)}
+.done{margin:.5em 0 0; max-width:62ch}
+.done b{font-family:var(--display); font-weight:700; color:var(--red); font-size:1.15rem; margin-inline-end:10px}
+
+.note{margin-top:calc(var(--sq)*1.5)}
+.note .ct p{margin:0; max-width:62ch; font-size:.95rem}
+.note .ct{border:1.6px dashed var(--ink-soft); border-radius:6px; padding-block:12px; margin-inline-end:28px; background:var(--paper)}
+
+.later{margin-top:calc(var(--sq)*2)}
+.later ul{margin:.3em 0 0; padding-inline-start:1.2em}
+.later li{margin-block:4px}
+
+footer.row{margin-top:calc(var(--sq)*3); font-size:.85rem; color:var(--ink-soft)}
+footer p{margin:0}
+
+@media (max-width:620px){
+  :root{--m:64px; --sq:22px}
+  .row > .ct{padding-inline:14px 16px}
+  .row > .mg{padding-inline:6px 8px}
+  .date{font-size:1rem}
+  .task label{grid-template-columns:22px minmax(0,1fr); gap:10px}
+  .who{grid-column:2; justify-self:start; margin-top:2px}
+  .note .ct{margin-inline-end:14px}
+  .day.is-today::before{inset-inline-start:6px; width:14px}
+  .day.is-today .mg{padding-inline-start:22px}
+}
+@media (prefers-reduced-motion:reduce){ .ready .tick path, .meter i::after{transition:none} }
+</style>
+
+<div class="sheet" dir="rtl" lang="ar" id="sheet">
+
+  <header class="row">
+    <div class="mg"><span class="big" id="pct">0%</span></div>
+    <div class="ct">
+      <h1>دفتر <span dir="ltr" class="latin">VERL</span></h1>
+      <p class="lede">من أول workflow لأول عيادة بتدفع. 3 أيام بناء وفحص، 3 أيام تجهيز للبيع، وأسبوعين لأول العملاء بتركيا. كل مربع أحمر تحت هو مهمة خلصت.</p>
+      <div class="meter" id="meter" role="img" aria-label="التقدّم"></div>
+      <p class="meter-label"><b id="doneN">0</b> من <span id="allN">0</span> مهمة خلصت</p>
+    </div>
+  </header>
+
+  <section class="row homework" aria-labelledby="hw-h">
+    <div class="mg"></div>
+    <div class="ct">
+      <h2 id="hw-h">واجبك اليوم</h2>
+      <ul class="hw-list" id="hw"></ul>
+      <p class="hw-empty" id="hw-empty" hidden>خلصت واجب اليوم. افتح كلود وقلّو "احفظ".</p>
+    </div>
+  </section>
+
+  <!-- ================= البناء ================= -->
+  <section class="stage" aria-labelledby="s1">
+    <div class="row stage-head"><div class="mg">١</div><div class="ct"><h2 id="s1">البناء</h2><p>التجهيز الليلة، وبعدين 3 أيام: يومين بناء ويوم واتساب وفحص. الهدف ديمو شغّال على واتساب بالتركي والعربي والإنجليزي يوم الأربعا بالليل. وأنا عم ابني، إنت بتشتغل على المبيعات بنفس الوقت.</p></div></div>
+
+    <article class="row day" data-start="2026-11-01" data-end="2026-11-01">
+      <div class="mg"><span class="date">الأحد<small>1 نوفمبر · الليلة</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>اليوم 0: تجهيز الحسابات</h3>
+        <p class="goal">بدون هالخطوة ما منقدر نبلّش بكرا الصبح. هي الشرط الوحيد لنخلّص بـ 3 أيام.</p>
+        <ul class="tasks">
+          <li class="task" data-who="me"><input type="checkbox" id="d0-1"><label for="d0-1"><span class="box"></span><span class="txt">تثبيت سكيلز n8n الرسمية<small><code dir="ltr">! npx skills add n8n-io/skills -g -y</code></small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-2"><label for="d0-2"><span class="box"></span><span class="txt">تعبئة <code dir="ltr">clinics/demo.md</code> لعيادة تركية (زراعة شعر أو أسنان)<small>الخدمات، الأسعار، الأطباء، الدوام، اللغات، رقم الطوارئ</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-3"><label for="d0-3"><span class="box"></span><span class="txt">حساب Supabase مجاني ومشروع اسمه verl<small>بس بلّش المشروع، أنا بعمل الجداول</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-4"><label for="d0-4"><span class="box"></span><span class="txt">بوت Telegram من BotFather</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-5"><label for="d0-5"><span class="box"></span><span class="txt">مفتاح API للموديل، وللتحويل من صوت لنص<small>OpenAI أو Anthropic أو Gemini</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-6"><label for="d0-6"><span class="box"></span><span class="txt">حساب Airtable وحساب Cal.com مجانيين</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-7"><label for="d0-7"><span class="box"></span><span class="txt">حط كل التوكنات كـ credentials جوا n8n<small>ولا توكن بالشات ولا بالملفات</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d0-8"><label for="d0-8"><span class="box"></span><span class="txt">اكتب 15 سؤال حقيقي بيسألوها المرضى<small>بالتركي والعربي والإنجليزي، بنفحص البوت عليهن</small></span><span class="who me">أنا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>كل الحسابات مفتوحة، والتوكنات محطوطة بـ n8n، وملف العيادة معبّى.</p>
+      </div>
+    </article>
+
+    <article class="row day" data-start="2026-11-02" data-end="2026-11-02">
+      <div class="mg"><span class="date">الإثنين<small>2 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>اليوم 1: البوت بيحكي، بيسمع، وبيسجّل</h3>
+        <p class="goal">البوت بيرد بلغة المريض بالأسعار الصح، بيفهم الفويس، وبيسجّل المريض بـ Airtable.</p>
+        <ul class="tasks">
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-1"><label for="d1-1"><span class="box"></span><span class="txt">جداول Supabase: clinics، message_buffer، ذاكرة المحادثة<small>وتعبئة عيادة الديمو من ملفك</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-2"><label for="d1-2"><span class="box"></span><span class="txt">Telegram بيدخل على طبقة التوحيد، وبيتحدّد clinic_id</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-3"><label for="d1-3"><span class="box"></span><span class="txt">تجميع الرسائل: buffer و debounce 8 ثواني و lock لكل مريض</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-4"><label for="d1-4"><span class="box"></span><span class="txt">الـ Agent وبرومبته<small>تركي، عربي، إنجليزي. قواعد طبية. رسالة موافقة KVKK. أداة get_services_prices</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-5"><label for="d1-5"><span class="box"></span><span class="txt">الفويس بيتحوّل لنص قبل الـ buffer</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d1-6"><label for="d1-6"><span class="box"></span><span class="txt">قالب Airtable، وأداة upsert_lead، وتسجيل المحادثات</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d1-7"><label for="d1-7"><span class="box"></span><span class="txt">جرّب 20 محادثة واكتب كل غلطة<small>نص وفويس، باللغات التلاتة</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d1-8"><label for="d1-8"><span class="box"></span><span class="txt">بنفس الوقت: أول 50 عيادة بقائمة Airtable<small>زراعة شعر وأسنان وتجميل بإسطنبول وأنطاليا وإزمير</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="d1-9"><label for="d1-9"><span class="box"></span><span class="txt">تصليح، و validate و test، وبعدين "احفظ"</span><span class="who both">سوا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>البوت بيعطي سعر صح باللغات التلاتة، وبيفهم الفويس، والمريض بيبين بـ Airtable.</p>
+      </div>
+    </article>
+
+    <article class="row day" data-start="2026-11-03" data-end="2026-11-03">
+      <div class="mg"><span class="date">التلاتا<small>3 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>اليوم 2: الحجز والأمان</h3>
+        <p class="goal">المريض بيحجز جوا الشات، والطوارئ بتروح فوراً لموظف، والنظام بيخدم عيادتين.</p>
+        <ul class="tasks">
+          <li class="task" data-who="me"><input type="checkbox" id="d2-1"><label for="d2-1"><span class="box"></span><span class="txt">أول شي الصبح: اختيار منصة واتساب الوسيطة وفتح الحساب<small>ربط الرقم ممكن ياخد وقت، فلازم يبلّش اليوم. منقارن 3 منصات سوا بنص ساعة</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d2-2"><label for="d2-2"><span class="box"></span><span class="txt">بـ Cal.com: event type لكل طبيب بعيادة الديمو</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d2-3"><label for="d2-3"><span class="box"></span><span class="txt">check_availability و book_appointment ورسالة التأكيد<small>الكود هو اللي بيمنع الحجز المكرر، مش الـ AI</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d2-4"><label for="d2-4"><span class="box"></span><span class="txt">كشف الطوارئ، والتحويل لموظف، والصور بتروح للموظف</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d2-5"><label for="d2-5"><span class="box"></span><span class="txt">Error workflow: بيوصلك تنبيه، والمريض ما بيضل معلّق</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="d2-6"><label for="d2-6"><span class="box"></span><span class="txt">عيادة تانية بإعدادات مختلفة، لنتأكد إن النظام بيخدم كذا عيادة</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="d2-7"><label for="d2-7"><span class="box"></span><span class="txt">15 سيناريو فحص باللغات التلاتة، وتصليح<small>سعر، حجز، وقت محجوز، طارئ، رسالة مش مفهومة، فويس، صورة</small></span><span class="who both">سوا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d2-8"><label for="d2-8"><span class="box"></span><span class="txt">بنفس الوقت: قرار الأسعار<small>سعر الـ Pilot الرمزي، والتركيب، والاشتراك الشهري</small></span><span class="who me">أنا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>بيمشي حجز كامل من فويس لموعد بـ Cal.com، وكلمة "نزيف" بتتحوّل فوراً لموظف، والعيادتين بيردّوا كل وحدة بأسعارها.</p>
+      </div>
+    </article>
+
+    <article class="row day" data-start="2026-11-04" data-end="2026-11-04">
+      <div class="mg"><span class="date">الأربعا<small>4 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>اليوم 3: واتساب، فحص نهائي، وديمو</h3>
+        <p class="goal">النظام شغّال على واتساب وما بيغلط، وعندك فيديو بتبعته لأي عيادة.</p>
+        <ul class="tasks">
+          <li class="task" data-who="cl"><input type="checkbox" id="d3-1"><label for="d3-1"><span class="box"></span><span class="txt">تبديل طبقة القناة من Telegram لواتساب</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="d3-2"><label for="d3-2"><span class="box"></span><span class="txt">كل السيناريوهات مرة تانية على واتساب، وتصليح، وإعادة فحص</span><span class="who both">سوا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d3-3"><label for="d3-3"><span class="box"></span><span class="txt">فيديو ديمو 90 ثانية<small>مريض بيسأل بالتركي، بعدين بيحجز، بعدين الموعد بيبين بـ Cal.com وAirtable</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="d3-4"><label for="d3-4"><span class="box"></span><span class="txt">بنفس الوقت: كمّل القائمة لـ 100 عيادة</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="d3-5"><label for="d3-5"><span class="box"></span><span class="txt">"احفظ"، وبعدين <code dir="ltr">/graphify . --update</code></span><span class="who both">سوا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>الديمو بيمشي على واتساب 10 مرات ورا بعض بدون غلطة، والفيديو جاهز.</p>
+      </div>
+    </article>
+
+    <aside class="row note"><div class="mg"></div><div class="ct"><p>إذا ربط رقم الواتساب تأخّر من المنصة، منصوّر الديمو على Telegram ومنكمّل، والواتساب بيلحق. وإذا يوم طوّل، الدقة أهم من التاريخ، لأن ديمو بيغلط قدام عيادة بيكلّف أكتر من يوم تأخير.</p></div></aside>
+  </section>
+
+  <!-- ================= جاهزية البيع ================= -->
+  <section class="stage" aria-labelledby="s2">
+    <div class="row stage-head"><div class="mg">٢</div><div class="ct"><h2 id="s2">جاهزية البيع</h2><p>3 أيام. القائمة والأسعار صاروا جاهزين من أيام البناء، فبقي العرض والصفحة والقانون، وأول تواصل.</p></div></div>
+
+    <article class="row day" data-start="2026-11-05" data-end="2026-11-07">
+      <div class="mg"><span class="date">الخميس للسبت<small>5 لـ 7 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>من ديمو لمنتج بينباع</h3>
+        <p class="goal">لما عيادة تقول "آه"، بتقدر تركّب عندها خلال 48 ساعة.</p>
+        <ul class="tasks">
+          <li class="task" data-who="both"><input type="checkbox" id="w2-3"><label for="w2-3"><span class="box"></span><span class="txt">أساسيات KVKK: نص الموافقة، aydınlatma metni، ومسودة اتفاقية معالجة بيانات<small>ومراجعة من محامي تركي قبل أول عميل</small></span><span class="who both">سوا</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="w2-5"><label for="w2-5"><span class="box"></span><span class="txt">العرض بصفحة وحدة، بالتركي والعربي والإنجليزي<small>شو بتاخد العيادة، كيف منبلّش، وشو بيصير بعد الـ Pilot</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="w2-6"><label for="w2-6"><span class="box"></span><span class="txt">صفحة VERL بسيطة: الفيديو، والعرض، وزر واتساب</span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="w2-8"><label for="w2-8"><span class="box"></span><span class="txt">رسائل التواصل: واتساب، DM إنستغرام، إيميل، وزيارة شخصية<small>بالتركي والعربي، وفيها ردود على الاعتراضات</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="w2-9"><label for="w2-9"><span class="box"></span><span class="txt">كيف بدك تستلم الدفع وتطلّع فواتير بتركيا<small>استشير محاسب</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="w2-10"><label for="w2-10"><span class="box"></span><span class="txt">السبت: أول 20 تواصل</span><span class="who me">أنا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>العرض والصفحة والرسائل جاهزين، وأول 20 عيادة وصلتهن رسالة.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= أول العملاء ================= -->
+  <section class="stage" aria-labelledby="s3">
+    <div class="row stage-head"><div class="mg">٣</div><div class="ct"><h2 id="s3">أول العملاء</h2><p>أسبوعين. تواصل كل يوم، ديموهات، و2 لـ 3 Pilots بسعر رمزي لمدة أسبوع أو أسبوعين.</p></div></div>
+
+    <article class="row day" data-start="2026-11-08" data-end="2026-11-14">
+      <div class="mg"><span class="date">الأسبوع 2<small>8 لـ 14 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>التواصل والديموهات</h3>
+        <p class="goal">10 مكالمات ديمو، وأول 2 أو 3 عيادات بيبلّشوا Pilot.</p>
+        <ul class="tasks">
+          <li class="task" data-who="me"><input type="checkbox" id="w3-1"><label for="w3-1"><span class="box"></span><span class="txt">20 تواصل جديد كل يوم، ومتابعة اللي ما ردّوا</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="w3-2"><label for="w3-2"><span class="box"></span><span class="txt">10 ديموهات<small>خلّي العيادة تكتب للبوت بنفسها، وما تحكي عن التقنية</small></span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="w3-3"><label for="w3-3"><span class="box"></span><span class="txt">بعد كل ديمو: شو الاعتراض اللي طلع، ونحسّن الرسالة</span><span class="who both">سوا</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="w3-4"><label for="w3-4"><span class="box"></span><span class="txt">تركيب أول Pilot<small>نجمع الأسعار، وواتساب، وCal.com، وAirtable، وساعة تدريب للعيادة</small></span><span class="who both">سوا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>في عيادة عم يحكي معها البوت مع مرضى حقيقيين.</p>
+      </div>
+    </article>
+
+    <article class="row day" data-start="2026-11-15" data-end="2026-11-21">
+      <div class="mg"><span class="date">الأسبوع 3<small>15 لـ 21 نوفمبر</small></span><span class="count"></span></div>
+      <div class="ct">
+        <h3>أرقام حقيقية وأول اشتراك</h3>
+        <p class="goal">الـ Pilot بيثبت النتيجة بالأرقام، والعيادة بتتحوّل لاشتراك شهري.</p>
+        <ul class="tasks">
+          <li class="task" data-who="both"><input type="checkbox" id="w4-1"><label for="w4-1"><span class="box"></span><span class="txt">مراجعة المحادثات كل يوم، وتصليح أي غلطة بنفس اليوم</span><span class="who both">سوا</span></label></li>
+          <li class="task" data-who="cl"><input type="checkbox" id="w4-2"><label for="w4-2"><span class="box"></span><span class="txt">تقرير Pilot<small>سرعة الرد، عدد الاستفسارات، رسائل بعد الدوام، عدد الحجوزات</small></span><span class="who cl">Claude</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="w4-3"><label for="w4-3"><span class="box"></span><span class="txt">اجتماع النتائج، وبعدين التحويل للاشتراك</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="me"><input type="checkbox" id="w4-4"><label for="w4-4"><span class="box"></span><span class="txt">شهادة من العيادة، و case study بإذنها</span><span class="who me">أنا</span></label></li>
+          <li class="task" data-who="both"><input type="checkbox" id="w4-5"><label for="w4-5"><span class="box"></span><span class="txt">درس الأسبوع بالعقل، وتحديث العرض والسعر</span><span class="who both">سوا</span></label></li>
+        </ul>
+        <p class="done"><b>بيخلص لما</b>أول عيادة بتدفع اشتراك شهري.</p>
+      </div>
+    </article>
+  </section>
+
+  <section class="row later" aria-labelledby="s4">
+    <div class="mg"></div>
+    <div class="ct">
+      <h2 id="s4">بعد أول عميل</h2>
+      <ul>
+        <li>5 عيادات بتدفع، وصفحة VERL فيها نتائج حقيقية</li>
+        <li>RAG للعيادات اللي عندها محتوى كبير</li>
+        <li>تذكير بالمواعيد، ومتابعة بعد العملية، ورسائل للي ما حجزوا</li>
+        <li>أسواق برّا تركيا</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer class="row">
+    <div class="mg"></div>
+    <div class="ct"><p>هالدفتر جزء من العقل التاني: <code dir="ltr">brain/00-Home.md</code>. التشيكات بتنحفظ بهالمتصفح بس.</p></div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  document.documentElement.setAttribute('dir','rtl');
+  document.documentElement.setAttribute('lang','ar');
+  var KEY='verl-roadmap-v1', state={};
+  try{ state=JSON.parse(localStorage.getItem(KEY)||'{}')||{}; }catch(e){ state={}; }
+  var sheet=document.getElementById('sheet');
+  var boxes=[].slice.call(sheet.querySelectorAll('.task input'));
+  var days=[].slice.call(sheet.querySelectorAll('.day'));
+  var meter=document.getElementById('meter');
+  boxes.forEach(function(){ meter.appendChild(document.createElement('i')); });
+  var tickSvg='<svg class="tick" viewBox="0 0 34 32" aria-hidden="true"><path d="M5 17c3 1.5 5.5 4.5 7.5 9C16 16 22 8.5 31 4"/></svg>';
+  sheet.querySelectorAll('.box').forEach(function(b){ b.innerHTML=tickSvg; });
+
+  function iso(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+  var today=iso(new Date());
+  var current=days.filter(function(d){ return d.dataset.start<=today && today<=d.dataset.end; })[0];
+  if(!current){ current = today < days[0].dataset.start ? days[0] : days[days.length-1]; }
+  current.classList.add('is-today');
+
+  function update(){
+    var done=0;
+    boxes.forEach(function(b,i){ if(b.checked) done++; meter.children[i].classList.toggle('on', b.checked); });
+    document.getElementById('doneN').textContent=done;
+    document.getElementById('allN').textContent=boxes.length;
+    document.getElementById('pct').textContent=Math.round(done/boxes.length*100)+'%';
+    meter.setAttribute('aria-label','التقدّم: '+done+' من '+boxes.length);
+    days.forEach(function(d){
+      var ins=d.querySelectorAll('.task input'), n=0;
+      ins.forEach(function(x){ if(x.checked) n++; });
+      d.querySelector('.count').textContent=n+' / '+ins.length;
+    });
+    var hw=document.getElementById('hw'); hw.innerHTML='';
+    var mine=[].slice.call(current.querySelectorAll('.task')).filter(function(li){
+      return li.dataset.who!=='cl' && !li.querySelector('input').checked;
+    });
+    mine.forEach(function(li){
+      var a=document.createElement('a'), inp=li.querySelector('input');
+      a.href='#'+inp.id;
+      var s=document.createElement('span');
+      var t=li.querySelector('.txt').cloneNode(true), sm=t.querySelector('small');
+      if(sm) sm.remove();
+      s.textContent=t.textContent.replace(/\s+/g,' ').trim();
+      a.appendChild(s);
+      a.addEventListener('click',function(e){ e.preventDefault(); li.scrollIntoView({behavior:'smooth',block:'center'}); inp.focus({preventScroll:true}); });
+      var item=document.createElement('li'); item.appendChild(a); hw.appendChild(item);
+    });
+    document.getElementById('hw-empty').hidden = mine.length>0;
+  }
+  boxes.forEach(function(b){
+    b.checked=!!state[b.id];
+    b.addEventListener('change',function(){
+      state[b.id]=b.checked;
+      try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){}
+      update();
+    });
+  });
+  update();
+  requestAnimationFrame(function(){ requestAnimationFrame(function(){ sheet.classList.add('ready'); }); });
+})();
+</script>
